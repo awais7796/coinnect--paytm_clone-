@@ -5,7 +5,7 @@ mongoose.connect("mongodb+srv://awaitzz49:Demo123@cluster0.blhgy.mongodb.net/pay
 
 const userSchema= new mongoose.Schema({
     username:{
-        type:true,
+        type:String,
         required:true,
         unique:true,
         trim:true,
@@ -15,22 +15,20 @@ const userSchema= new mongoose.Schema({
 
     },
     password:{
-        type:true,
+        type:String,
         required:true,
         unique:true,
         minLenght:6
 
     },
     firstName:{
-        type:true,
+        type:String,
         required:true,
         trim:true,
         minLenght:6
-
-
     },
     lastName:{
-        type:true,
+        type:String,
         required:true,
         trim:true,
         minLenght:6
@@ -39,4 +37,3 @@ const userSchema= new mongoose.Schema({
 const User=mongoose.model('User',userSchema);
 module.exports={
     User}
-    ;
