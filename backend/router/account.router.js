@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 
 router.get("/balance", authMiddleware, async (req, res) => {
   try {
-    const account = Account.findOne({
+    const account = await Account.findOne({
       //here userID is explecitly added from the jwt.sign and middlewares
       userId: req.userId,
     });
