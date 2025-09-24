@@ -1,19 +1,21 @@
-const express = require("express");
+import express from "express";
+import jwt from "jsonwebtoken";
+import { User } from "../models/user.schema.js";
+import { JWT_SECRET } from "../config.js";
+import authMiddleware from "../middlewares/auth.middleware.js";
+import { signupBody, signinBody } from "../validation/user.validator.js";
+import { updateBody } from "../validation/userUpdate.validator.js";
+import { Account } from "../models/account.schema.js";
+
 const router = express.Router();
-const { User } = require("../models/user.schema");
-const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = require("../config");
-const authMiddleware = require("../middlewares/auth.middleware");
-const { signupBody, signinBody } = require("../validation/user.validator");
-const { updateBody } = require("../validation/userUpdate.validator");
-const { Account } = require("../models/account.schema");
 
 router.post("/signup", async (req, res) => {
   //desctructuring  needed
-  // safeparse return an object which i sgetting saved in success object and
+  // safeparse return an object which is getting saved in success object and
   // ojects are always trusthy value so if block is not actuallu running it is just bypassing stiff
 
-  const success = signupBody.safeParse(req.body);
+  const { success } = signupBody.safeParse(req.body);
+
   if (!success) {
     return res.status(411).json({
       message: "Incorrect inputs",
@@ -28,6 +30,7 @@ router.post("/signup", async (req, res) => {
       message: "Email already taken / Incorrect inputs",
     });
   }
+
   // create a new user
   const newUser = await User.create({
     username: req.body.username,
@@ -135,4 +138,4 @@ router.get("/bulk", async (req, res) => {
   });
 });
 
-module.exports = router;
+export default router;

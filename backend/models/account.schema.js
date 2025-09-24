@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const { User } = require("../models/user.schema");
+import mongoose from "mongoose";
+import { User } from "../models/user.schema.js";
 
 const accountSchema = new mongoose.Schema({
   userId: {
@@ -13,6 +13,4 @@ const accountSchema = new mongoose.Schema({
   },
 });
 
-const Account = mongoose.model("Account", accountSchema);
-
-module.exports = { Account };
+export const Account = mongoose.model("Account", accountSchema);

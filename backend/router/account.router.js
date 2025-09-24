@@ -1,7 +1,8 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const { Account } = require("../models/account.schema");
-const authMiddleware = require("../middlewares/auth.middleware");
+import { Account } from "../models/account.schema.js";
+import authMiddleware from "../middlewares/auth.middleware.js";
+import mongoose from "mongoose";
 
 router.get("/balance", authMiddleware, async (req, res) => {
   try {
@@ -20,4 +21,59 @@ router.get("/balance", authMiddleware, async (req, res) => {
   }
 });
 
-module.exports = router;
+router.post("/transfer", authMiddleware, async (req, res) => {
+  const session = await mongoose.startSession();
+
+  session.startTransaction();
+  const { amount, to } = req.body;
+
+  const account = await Account.findOne({
+    userId: req.userId,
+  });
+  if (!account || account.balance < amount) {
+    await session.abortTransaction();
+    res.status(400).json({
+      msg: "sender doesnt exist",
+    });
+  }
+
+  const toAccount = await Account.findOne({
+    userId: to,
+  });
+  if (!toAccount) {
+    await session.abortTransaction();
+    res.status(400).json({
+      msg: "rciever doesnot exist",
+    });
+  }
+
+  await Account.updateOne(
+    {
+      userId: req.userId,
+    },
+    {
+      $inc: {
+        balance: -amount,
+      },
+    },
+    { session }
+  );
+
+  await Account.updateOne(
+    {
+      userId: to,
+    },
+    {
+      $inc: {
+        balance: amount,
+      },
+    },
+    { session }
+  );
+
+  await session.commitTransaction();
+  res.json({
+    msg: "transaction done",
+  });
+});
+export default router;

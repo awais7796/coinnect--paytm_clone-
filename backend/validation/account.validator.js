@@ -1,4 +1,4 @@
-const zod = require("zod");
+import zod from "zod";
 
 const accountSchema = zod.object({
   userId: zod.string(),
