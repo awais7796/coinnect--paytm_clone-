@@ -1,18 +1,18 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Signup from "./pages/Signup.jsx";
+import "./index.css";
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route>path="/signup" element={<Signup />}</Route>
-          <Route>path="/signin" element={<Signin />}</Route>
-          <Route>path="/dashboard" element={<Dashboard />}</Route>
-          <Route>path="/send" element={<Send />}</Route>
-        </Routes>
-      </BrowserRouter>
-    </>
+    <div className="bg-red-500 w-20 h-20">Test</div>
+
+    // <BrowserRouter>
+    //   <Routes>
+    //     <Route path="/" element={<h1>Home</h1>} />
+    //     <Route path="/signup" element={<Signup />} />
+    //   </Routes>
+    // </BrowserRouter>
   );
 }
 
