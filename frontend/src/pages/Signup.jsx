@@ -9,9 +9,9 @@ import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   return (
-    <div className="">
+    <div className="bg-red-800">
       <div>
-        <div>
+        <div className="bg-red-900">
           <Heading label={"Sign up"} />
           <SubHeading label={"Enter your infromation to create an account"} />
           <InputBox
@@ -43,7 +43,7 @@ const Signup = () => {
             <Button label={"Sign up"} />
             <BottomWarning
               label={"Already have an account?"}
-              buttonText={"Sign in"}
+              buttonext={"Sign in"}
               to={"/signin"}
             />
           </div>
