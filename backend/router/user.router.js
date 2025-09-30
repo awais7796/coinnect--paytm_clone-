@@ -49,6 +49,9 @@ router.post("/signup", async (req, res) => {
   const token = jwt.sign({ userId: newUser._id }, JWT_SECRET);
   return res.status(200).json({
     message: `user created ${token}`,
+    token,
+
+    // token needs to be send here for local storage to bypasss it and use it in jwt signin/signup
   });
 });
 
