@@ -60,7 +60,7 @@ const Signup = () => {
                     password,
                   }
                 );
-                console.log(response.data);
+                //send token in backend to recieve and store it into localstorage
                 localStorage.setItem("token", response.data.token);
                 navigate("/dashboard");
               }}
