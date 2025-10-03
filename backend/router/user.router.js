@@ -43,7 +43,7 @@ router.post("/signup", async (req, res) => {
   //create a new user and assign them some balance
   await Account.create({
     userId,
-    balance: 1 + Math.random() * 10000,
+    balance: Math.floor(1 + Math.random() * 10000),
   });
 
   const token = jwt.sign({ userId: newUser._id }, JWT_SECRET);
@@ -114,31 +114,29 @@ router.put("/", authMiddleware, async (req, res) => {
 });
 
 router.get("/bulk", async (req, res) => {
-  const filter = req.query.filter || "";
+  try {
+    const filter = req.query.filter || "";
 
-  const users = await User.find({
-    $or: [
-      {
-        firstName: {
-          $regex: filter,
-        },
-      },
-      {
-        lastName: {
-          $regex: filter,
-        },
-      },
-    ],
-  });
+    const users = await User.find({
+      $or: [
+        { firstName: { $regex: filter, $options: "i" } },
+        { lastName: { $regex: filter, $options: "i" } },
+      ],
+    });
 
-  res.status(200).json({
-    user: users.map((user) => ({
-      username: req.body.username,
-      password: req.body.password,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-    })),
-  });
+    // Send real user data
+    res.status(200).json({
+      user: users.map((user) => ({
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+      })),
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 export default router;

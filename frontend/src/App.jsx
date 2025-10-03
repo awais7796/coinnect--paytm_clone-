@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { SendMoney } from "./pages/SendMoney.jsx";
 import Signup from "./pages/Signup.jsx";
 import Signin from "./pages/Signin.jsx";
-import { SendMoney } from "./pages/SendMoney.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import "./index.css";
 
